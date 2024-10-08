@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Pong Game Start Screen</title>
+    <link rel="stylesheet" href="pingpong.css">
+    <script src="pingpong.js"></script>
+    
+
+</head>
+
+<body>
+    <div id="game">
+
+        <!-- 选择模式界面 -->
+        <div id="choose-mode">
+            <div id="title1">PING PONG</div>
+            <div id="description1">
+                Use your finger to move the racket and to spin the ball. Get 7 points to win!
+            </div>
+            <button id="friend-btn">
+                <span class="icon1">👤</span> PLAY vs. FRIEND
+            </button>
+            <button id="bot-btn">
+                <span class="icon1">🤖</span> PLAY vs. BOT
+            </button>
+            <button id="back1">Back</button>
+        </div>
+
+        <!-- 难度滑条界面 -->
+        <div id="choose-difficulty">
+            <div class="emoji">😠</div>
+            <div class="title2">DIFFICULTY</div>
+            <div class="slider-container">
+                <div class="slider" id="difficulty-slider">
+                    <div class="slider-long" id="slider-long"></div>
+                    <div class="slider-circle" id="slider-circle"></div>
+                </div>
+            </div>
+            <div class="description2">Drag to adjust difficulty</div>
+            <button id="play-btn">PLAY</button>
+            <button id="back2">Back</button>
+        </div>
+        
+        <!-- 游戏界面 -->
+        <div id="gamePlay">
+            <div id="scoreBoard">
+                <div id="playerScore">3</div>
+                <div id="opponentScore">1</div>
+            </div>
+            <div id="exitButton">EXIT</div>
+            <div id="table">
+                <div id="playerPaddle" class="paddle"></div>
+                <div id="opponentPaddle" class="paddle"></div>
+                <div id="ball"></div>
+            </div>
+        </div>
+
+        
+        
+    </div>
+</body>
+
+</html>
