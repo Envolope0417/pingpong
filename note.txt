@@ -1,0 +1,229 @@
+游戏玩法：
+1、回合开始，球静止在玩家半桌上。
+    1.1、玩家击球，判断回合是否结束。
+        1.1.1、若未结束，电脑击球，再判断回合是否结束。
+            1.1.1.1若未结束，玩家击球，再判断回合是否结束。
+    若其中一个判断为回合结束，回合重新开始。
+2、回合结束的条件：
+    2.1、击球1秒后，球的位置不在对手半桌上；
+    2.2、击球1.5秒后，对手仍未击球。
+
+
+
+游戏需求：
+    function getStyle(element, styleProperty) {
+        // 获取元素的计算样式
+        const style = window.getComputedStyle(element);
+        // 获取指定的样式值
+        return style[styleProperty];
+    }
+
+1、playerPaddle（玩家球拍）能跟随鼠标移动。
+        document.addEventListener("mousemove", function (event) {
+            const mouse_x = event.clientX;
+            const mouse_y = event.clientY;
+            // 计算得到鼠标移动时球拍的位置
+
+            gameml = parseInt(gameML);
+            gamemt = parseInt(gameMT);
+            
+            playerPaddle.style.left = mouse_x - gameml - 20 + "px";
+            playerPaddle.style.top = mouse_y - gamemt - 20 + "px";
+
+
+            console.log(mouse_x, mouse_y, gameml, gamemt);
+        });
+        
+   computerPaddle（电脑球拍）x方向上的移动始终与球x方向移动一致，y方向上的移动始终与球y方向移动相反。
+        function moveComputerPaddle() {
+        const ballX = parseInt(ball.style.left);
+        const ballY = parseInt(ball.style.top);
+        
+        // 电脑球拍x方向与球x方向一致，y方向与球y方向相反
+        computerPaddle.style.left = `${ballX}px`;
+        computerPaddle.style.top = `${table.clientHeight - ballY}px`;
+        }
+        
+2、回合开始状态：
+    球静止在玩家半桌。球能每16毫秒检测一次是否与球拍发生碰撞。
+    碰撞检测状态：
+        // 碰撞逻辑
+    function detectCollision(el1, el2) {
+        // 获取元素的边界矩形
+        const rect1 = el1.getBoundingClientRect();
+        const rect2 = el2.getBoundingClientRect();
+
+        // 检查两个元素是否碰撞
+        const isColliding = !(
+            rect1.right < rect2.left || // el1 在 el2 左侧
+            rect1.left > rect2.right || // el1 在 el2 右侧
+            rect1.bottom < rect2.top || // el1 在 el2 上方
+            rect1.top > rect2.bottom    // el1 在 el2 下方
+        );
+
+        return isColliding;
+    }
+    function checkCollision(el1, el2, callback) {
+        function update() {
+            const collided = detectCollision(el1, el2);
+
+            if (collided) {
+                callback(); // 触发碰撞时的回调
+            }
+        }
+
+        // 使用setInterval每0.5秒检查一次碰撞
+        setInterval(update, 50); 
+    }
+
+
+    
+    2.1、若碰撞，立即停止球的碰撞检测
+        2.1.1、计算出碰撞前0.25秒内球拍paddle.x和paddle.y的位移，以及球碰撞前0.25秒内ball.x和ball.y的位移
+    
+    // 获取碰撞前的位移
+    function trackElementDisplacementOverTime(el, callback) {
+        let lastPosition = {
+            x: el.getBoundingClientRect().left,
+            y: el.getBoundingClientRect().top
+        };
+
+        setInterval(() => {
+            const rect = el.getBoundingClientRect();
+            const currentPosition = {
+                x: rect.left,
+                y: rect.top
+            };
+            const displacement = {
+                x: currentPosition.x - lastPosition.x,
+                y: currentPosition.y - lastPosition.y
+            };
+            lastPosition = currentPosition;
+
+            // 立即调用回调函数，并将位移值作为参数传递
+            if (typeof callback === 'function') {
+                callback(displacement);
+            }
+        }, 500); // 每0.25秒更新一次位置信息
+    }
+
+        2.1.2、根据计算出的位移，改变球的运动状态，球的位置每0.25秒改变一次。
+            球的位置向x方向每0.25秒增加（ball.x+10*paddle.x），向y方向每0.25秒增加（ball.y-10*paddle.y）
+    function moveElement(element, speedX, speedY) {
+        // 获取元素的初始位置
+        const initialRect = element.getBoundingClientRect();
+        let currentPositionX = initialRect.left;
+        let currentPositionY = initialRect.top;
+
+        // 定义一个函数来更新元素的位置
+        function updatePosition() {
+            // 更新位置
+            currentPositionX += 10*speedX;
+            currentPositionY += 10*speedY;
+
+            // 设置元素的新位置
+            
+            element.style.left = currentPositionX + 'px';
+            element.style.top = currentPositionY + 'px';
+            
+            console.log(currentPositionX, currentPositionY);
+            // 通过 requestAnimationFrame 来创建一个递归的动画循环
+            requestAnimationFrame(updatePosition);
+        }
+
+        // 启动动画循环
+        requestAnimationFrame(updatePosition);
+    }
+        2.1.3、碰撞发生0.5秒后恢复球的碰撞检测
+        2.1.4、碰撞发生1秒内若没有再次发生碰撞
+            2.1.4.1、判断回合是否结束
+                2.1.4.1.1、判断碰撞1秒后球的位置是否在对面球桌上，若不在，则回合结束。
+                    2.1.4.1.1.1、游戏回到回合开始状态
+                2.1.4.1.2、判断1.5秒内是否再次发生碰撞，若没有，则回合结束。
+                    2.1.4.1.2.1、游戏回到回合开始状态               
+                2.1.4.1.3、若回合没有结束，游戏回到碰撞检测状态
+        2.1.5、碰撞发生1秒内若再次发生碰撞，则回到碰撞检测状态。
+    2.2、若未碰撞，则继续检测。
+
+HTML和CSS代码：
+
+<div id="gamePlay">
+    <div id="table">
+        <div id="net"></div> 
+    </div>
+    <div id="playerPaddle" class="paddle"></div>
+    <div id="compterPaddle" class="paddle"></div> 
+    <div id="ball"></div>
+</div>
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#gamePlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #ffebcc;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid black;
+    display: none;
+}
+
+#table {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    background-color: green;
+    border: 5px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#net {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 4px;
+    background-color: white;
+    transform: translate(-50%, -50%);
+}
+
+.paddle {
+    width: 40px;
+    height: 40px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+}
+
+#playerPaddle {
+    background-color: red;
+    bottom: 10px;
+    left: calc(50% - 20px);
+}
+
+#computerPaddle { 
+    background-color: blue;
+    top: 10px;
+    left: calc(50% - 20px);
+}
+
+#ball {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+

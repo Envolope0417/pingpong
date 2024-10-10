@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 大界面 */
+#game {
+    width: 450px;
+    height: 700px;
+    margin: auto;
+    
+   
+}
+
+
+
+/* 选择模式界面 */
+#choose-mode {
+    background-color: blanchedalmond;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    display: none;
+}
+
+#title1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #FFD700;
+    
+    margin-bottom: 20px;
+}
+
+#description1 {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+    position: relative;
+    top: 10%;
+}
+
+/* .button1 {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+} */
+
+#friend-btn {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    background-color: #007BFF;
+    position: relative;
+    top: 30%;
+    
+}
+
+#bot-btn {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    background-color: #007BFF;
+    position: relative;
+    top: 30%;
+}
+
+#back1 {
+    
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    background-color: #FF7F50;
+    position: relative;
+    top: 30%;
+    width: 40%;
+    
+}
+
+.button:hover {
+    opacity: 0.9;
+}
+
+.icon1 {
+    margin-right: 10px;
+}
+
+
+
+
+/* 选择困难程度界面 */
+#choose-difficulty {
+    background-color: #3A3F47;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    font-family: Arial, sans-serif;
+    display: none;
+}
+
+.emoji {
+    background-color: #FFD700;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    margin: 0 auto;
+}
+
+.title2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.slider-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.slider {
+    position: relative;
+    width: 80%;
+    height: 40px;
+    background-color: #C4C4C4;
+    border-radius: 10px;
+}
+
+.slider-long {
+    position: absolute;
+    height: 100%;
+    background-color: #FFD700;
+    border-radius: 10px;
+    width: 50%;
+    /* 初始选择难度 */
+}
+
+.slider-circle {
+    position: absolute;
+    top: 0px;
+    right: 40%;
+    width: 40px;
+    height: 40px;
+    background-color: #FFD700;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.slider-circle:active {
+    transform: scale(1.2);
+}
+
+.description2 {
+    font-size: 14px;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+#play-btn {
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+#play-btn:hover {
+    background-color: #E8B200;
+}
+
+#back2 {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    text-decoration: underline;
+}
+
+
+
+
+/* 游戏界面 */
+#gamePlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #ffebcc;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid black;
+    /* display: none; */
+}
+
+#table {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    background-color: green;
+    border: 5px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#net {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 4px;
+    background-color: white;
+    transform: translate(-50%, -50%);
+}
+
+.paddle {
+    width: 40px;
+    height: 40px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+}
+
+#playerPaddle {
+    background-color: red;
+    bottom: 10px;
+    left: calc(50% - 20px);
+}
+
+#opponentPaddle {
+    background-color: blue;
+    top: 10px;
+    left: calc(50% - 20px);
+}
+
+#ball {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#scoreBoard {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    display: none;
+}
+
+#playerScore,
+#opponentScore {
+    font-size: 24px;
+    color: white;
+    background-color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+#exitButton {
+    position: absolute;
+    right: 10px;
+    top: 50px;
+    background-color: #f08b65;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: none;
+}

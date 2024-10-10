@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乒乓球小游戏</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="gameContainer">
+        <div id="scoreBoard">
+            <div id="playerScore">3</div>
+            <div id="opponentScore">1</div>
+        </div>
+        <div id="exitButton">EXIT</div>
+        <div id="table">
+            <div id="playerPaddle" class="paddle"></div>
+            <div id="opponentPaddle" class="paddle"></div>
+            <div id="ball"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7b844;
+}
+
+#gameContainer {
+    position: relative;
+    width: 400px;
+    height: 600px;
+    background-color: #ffebcc;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid black;
+}
+
+#table {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background-color: green;
+    border: 5px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.paddle {
+    width: 40px;
+    height: 40px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+}
+
+#playerPaddle {
+    background-color: red;
+    bottom: 10px;
+    left: calc(50% - 20px);
+}
+
+#opponentPaddle {
+    background-color: blue;
+    top: 10px;
+    left: calc(50% - 20px);
+}
+
+#ball {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#scoreBoard {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#playerScore, #opponentScore {
+    font-size: 24px;
+    color: white;
+    background-color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+#exitButton {
+    position: absolute;
+    right: 10px;
+    top: 50px;
+    background-color: #f08b65;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+</style>
+
+<script>
+    const playerPaddle = document.getElementById('playerPaddle');
+        const gameContainer = document.getElementById('gameContainer');
+
+        gameContainer.addEventListener('mousemove', (event) => {
+            let rect = gameContainer.getBoundingClientRect();
+            let mouseX = event.clientX - rect.left;
+            let mouseY = event.clientY - rect.top;
+
+            // 限制球拍的移动范围在下半个球桌区域
+            let tableTop = rect.height * 0.5; // 球桌的中线位置
+            let paddleRadius = 20; // 球拍的半径
+
+            // 限制球拍的左右移动范围
+            if (mouseX >= paddleRadius && mouseX <= rect.width - paddleRadius) {
+                playerPaddle.style.left = mouseX - paddleRadius + 'px';  // 左右移动
+            }
+
+            // 限制球拍的上下移动范围（只能在下半个球桌）
+            if (mouseY >= tableTop && mouseY <= rect.height - paddleRadius) {
+                playerPaddle.style.top = mouseY - paddleRadius + 'px';  // 上下移动
+            }
+        });
+
+</script>
+</html>

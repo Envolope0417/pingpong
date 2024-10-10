@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paddle Follow Mouse</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 大界面 */
+        #game {
+            width: 450px;
+            height: 700px;
+            margin: auto;
+        }
+
+        #gamePlay {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #ffebcc;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid black;
+            /* display: none; */
+        }
+
+        #table {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 80%;
+            background-color: green;
+            border: 5px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .paddle {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        #playerPaddle {
+            background-color: red;
+            bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game">
+        <div id="gamePlay">
+            <div id="table">
+                <div id="playerPaddle" class="paddle"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const playerPaddle = document.getElementById('playerPaddle');
+            const gamePlay = document.getElementById('gamePlay');
+            gamePlay.addEventListener('mousemove', function (event) {
+                const rect = this.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+
+                const paddleWidth = playerPaddle.offsetWidth;
+                const paddleHeight = playerPaddle.offsetHeight;
+
+                if (x < 0) {
+                    x = 0;
+                }
+                if (x > rect.width - paddleWidth) {
+                    x = rect.width - paddleWidth;
+                }
+                if (y < 0) {
+                    y = 0;
+                }
+                if (y > rect.height - paddleHeight) {
+                    y = rect.height - paddleHeight;
+                }
+
+                playerPaddle.style.left = x + 'px';
+                playerPaddle.style.top = y + 'px';
+            });
+        });
+    </script>
+</body>
+
+</html>
