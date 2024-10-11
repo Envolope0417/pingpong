@@ -20,13 +20,7 @@ window.onload = function () {
         back2 = $("back2"),
         playbtn = $("play-btn"),
         table = $("table");
-       
-    
-   
   
-    const slider = document.getElementById('difficulty-slider');
-    const sliderLong = document.getElementById('slider-long');
-    const sliderCircle = document.getElementById('slider-circle');
 
     const ball = document.getElementById("ball");
     const playerPaddle = document.getElementById("playerPaddle");
@@ -125,12 +119,17 @@ window.onload = function () {
 function CollisionDetection() {
     let collisionDetection = true;
 
+    
+
+    // 启动检测
+    setInterval(checkCollision, 250);
+
     // 检测碰撞条件
     function checkCollision() {
 
         // 电脑球拍运动
         moveComputerPaddle();
-        
+
         console.log(collisionDetection);
         if (!collisionDetection) return;
 
@@ -146,10 +145,10 @@ function CollisionDetection() {
         if (ballY + ball.offsetHeight >= playerPaddleY &&
             ballX + ball.offsetWidth > playerPaddleX &&
             ballX < playerPaddleX + playerPaddle.offsetWidth) {
-                
+
             handleCollision();
             return;
-        }else{
+        } else {
             // 获取小球碰撞前位置
             Ball.x = parseInt(ball.style.left);
             Ball.y = parseInt(ball.style.top);
@@ -185,7 +184,7 @@ function CollisionDetection() {
         // 获取小球和鼠标当前位置并计算速度
         getSpeed();
         setInterval(ballMove, 50);
-        
+
         console.log(Ball.Vx, Ball.Vy);
 
         // 0.5秒后恢复碰撞检测
@@ -195,21 +194,18 @@ function CollisionDetection() {
             // requestAnimationFrame(checkCollision); 
             // setInterval(checkCollision, 250);
             checkCollision();
-        
-        
+
+
         }, 500);
-        
 
-        
+
+
     }
-
-    // 启动检测
-    setInterval(checkCollision, 250);
-
-    
 
     
 }
+
+
     // 电脑球拍运动
     function moveComputerPaddle() {
         const ballX = parseInt(ball.style.left);
