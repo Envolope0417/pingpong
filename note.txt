@@ -47,6 +47,59 @@
 2、回合开始状态：
     球静止在玩家半桌。球能每16毫秒检测一次是否与球拍发生碰撞。
     碰撞检测状态：
+    // 碰撞检测
+function CollisionDetection() {
+    let collisionDetection = true;
+
+    // 检测碰撞条件
+    function checkCollision() {
+        if (!collisionDetection) return;
+
+        const ballX = parseInt(ball.style.left);
+        const ballY = parseInt(ball.style.top);
+        const playerPaddleX = parseInt(playerPaddle.style.left);
+        const playerPaddleY = parseInt(playerPaddle.style.top);
+        const computerPaddleX = parseInt(computerPaddle.style.left);
+        const computerPaddleY = parseInt(computerPaddle.style.top);
+
+        // 玩家球拍碰撞检测
+        if (ballY + ball.offsetHeight >= playerPaddleY &&
+            ballX + ball.offsetWidth > playerPaddleX &&
+            ballX < playerPaddleX + playerPaddle.offsetWidth) {
+            handleCollision();
+            return;
+        }
+
+        // 电脑球拍碰撞检测
+        if (ballY <= computerPaddleY + computerPaddle.offsetHeight &&
+            ballX + ball.offsetWidth > computerPaddleX &&
+            ballX < computerPaddleX + computerPaddle.offsetWidth) {
+            handleCollision();
+            return;
+        }
+
+        // 循环
+        requestAnimationFrame(checkCollision);
+    }
+
+    // 碰撞函数，停止检测并在0.5秒后恢复
+    function handleCollision() {
+        collisionDetection = false;
+        console.log("Collision detected!");
+
+        // 0.5秒后恢复碰撞检测
+        setTimeout(() => {
+            collisionDetection = true;
+            console.log("Collision.");
+            requestAnimationFrame(checkCollision); 
+        }, 500);
+    }
+
+    // 启动检测
+    requestAnimationFrame(checkCollision);
+}
+
+
         // 碰撞逻辑
     function detectCollision(el1, el2) {
         // 获取元素的边界矩形
