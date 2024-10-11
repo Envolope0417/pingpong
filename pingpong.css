@@ -25,7 +25,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     position: relative;
-    display: none;
+    /* display: none; */
 }
 
 #title1 {
@@ -155,7 +155,7 @@
 .slider {
     position: relative;
     width: 80%;
-    height: 40px;
+    height: 20px;
     background-color: #C4C4C4;
     border-radius: 10px;
 }
@@ -171,7 +171,7 @@
 
 .slider-circle {
     position: absolute;
-    top: 0px;
+    top: -10px;
     right: 40%;
     width: 40px;
     height: 40px;
@@ -232,7 +232,7 @@
     border-radius: 10px;
     overflow: hidden;
     border: 2px solid black;
-    /* display: none; */
+    display: none;
 }
 
 #table {
@@ -296,7 +296,7 @@
     right: 10px;
     display: flex;
     justify-content: space-between;
-    display: none;
+    /* display: none; */
 }
 
 #playerScore,
@@ -311,12 +311,12 @@
 #exitButton {
     position: absolute;
     right: 10px;
-    top: 50px;
+    bottom: 10px;
     background-color: #f08b65;
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    display: none;
+    /* display: none; */
 }

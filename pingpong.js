@@ -255,21 +255,35 @@
     
 
     // 碰撞逻辑
-    function detectCollision(el1, el2) {
-        // 获取元素的边界矩形
-        const rect1 = el1.getBoundingClientRect();
-        const rect2 = el2.getBoundingClientRect();
+    // function detectCollision(el1, el2) {
+    //     // 获取元素的边界矩形
+    //     const rect1 = el1.getBoundingClientRect();
+    //     const rect2 = el2.getBoundingClientRect();
 
-        // 检查两个元素是否碰撞
-        const isColliding = !(
-            rect1.right < rect2.left || // el1 在 el2 左侧
-            rect1.left > rect2.right || // el1 在 el2 右侧
-            rect1.bottom < rect2.top || // el1 在 el2 上方
-            rect1.top > rect2.bottom    // el1 在 el2 下方
-        );
+    //     // 检查两个元素是否碰撞
+    //     const isColliding = !(
+    //         rect1.right < rect2.left || // el1 在 el2 左侧
+    //         rect1.left > rect2.right || // el1 在 el2 右侧
+    //         rect1.bottom < rect2.top || // el1 在 el2 上方
+    //         rect1.top > rect2.bottom    // el1 在 el2 下方
+    //     );
 
-        return isColliding;
-    }
+    //     return isColliding;
+    // }
+
+    // // function checkCollision(el1, el2, callback) {
+    // //     function update() {
+    // //         const collided = detectCollision(el1, el2);
+
+    // //         if (collided) {
+    // //             callback(); // 触发碰撞时的回调
+    // //         }
+
+    // //         requestAnimationFrame(update); // 每帧继续检测
+    // //     }
+
+    // //     requestAnimationFrame(update);
+    // // }
 
     // function checkCollision(el1, el2, callback) {
     //     function update() {
@@ -278,173 +292,159 @@
     //         if (collided) {
     //             callback(); // 触发碰撞时的回调
     //         }
-
-    //         requestAnimationFrame(update); // 每帧继续检测
     //     }
 
-    //     requestAnimationFrame(update);
+    //     // 使用setInterval每0.5秒检查一次碰撞
+    //     setInterval(update, 50); 
     // }
 
-    function checkCollision(el1, el2, callback) {
-        function update() {
-            const collided = detectCollision(el1, el2);
+    // // 计算速度的方法
+    // // function getVelocity(el) {
+    // //     let prevTime = null;
+    // //     let prevPosition = { x: 0, y: 0 };
+    // //     let velocity = { x: 0, y: 0 };
 
-            if (collided) {
-                callback(); // 触发碰撞时的回调
-            }
-        }
+    // //     function updateVelocity(currentTime) {
+    // //         if (!prevTime) {
+    // //             prevTime = currentTime;
+    // //             const rect = el.getBoundingClientRect();
+    // //             prevPosition.x = rect.left + rect.width / 2;
+    // //             prevPosition.y = rect.top + rect.height / 2;
+    // //             requestAnimationFrame(updateVelocity);
+    // //             return;
+    // //         }
 
-        // 使用setInterval每0.5秒检查一次碰撞
-        setInterval(update, 50); 
-    }
+    // //         const timeDelta = (currentTime - prevTime) / 1000; // 转换为秒
+    // //         prevTime = currentTime;
 
-    // 计算速度的方法
-    // function getVelocity(el) {
-    //     let prevTime = null;
-    //     let prevPosition = { x: 0, y: 0 };
-    //     let velocity = { x: 0, y: 0 };
+    // //         const rect = el.getBoundingClientRect();
+    // //         const currentPosition = {
+    // //             x: rect.left + rect.width / 2, // 获取元素中心的X坐标
+    // //             y: rect.top + rect.height / 2,  // 获取元素中心的Y坐标
+    // //         };
 
-    //     function updateVelocity(currentTime) {
-    //         if (!prevTime) {
-    //             prevTime = currentTime;
-    //             const rect = el.getBoundingClientRect();
-    //             prevPosition.x = rect.left + rect.width / 2;
-    //             prevPosition.y = rect.top + rect.height / 2;
-    //             requestAnimationFrame(updateVelocity);
-    //             return;
-    //         }
+    // //         const deltaX = currentPosition.x - prevPosition.x;
+    // //         const deltaY = currentPosition.y - prevPosition.y;
 
-    //         const timeDelta = (currentTime - prevTime) / 1000; // 转换为秒
-    //         prevTime = currentTime;
+    // //         // 计算速度，单位是px/秒
+    // //         velocity.x = deltaX / timeDelta;
+    // //         velocity.y = deltaY / timeDelta;
 
+    // //         // 更新上一帧的位置
+    // //         prevPosition = currentPosition;
+
+    // //         requestAnimationFrame(updateVelocity); // 每帧继续更新速度
+    // //     }
+
+    // //     // 启动 requestAnimationFrame 来计算速度
+    // //     requestAnimationFrame(updateVelocity);
+
+    // //     // 返回一个函数来获取当前速度
+    // //     return function getCurrentVelocity() {
+    // //         console.log(velocity.x, velocity.y);
+    // //         return { x: velocity.x, y: velocity.y };
+    // //         // return velocity;
+    // //     };
+    // // }
+
+    // // 获取元素位移的方法
+    // // function trackElementDisplacementOverTime(el, direction) {
+    // //     let lastPosition = 0;
+    // //     let currentPosition = 0;
+
+    // //     // 初始化位置
+    // //     if (direction === 'x') {
+    // //         lastPosition = el.getBoundingClientRect().left;
+    // //     } else if (direction === 'y') {
+    // //         lastPosition = el.getBoundingClientRect().top;
+    // //     }
+
+    // //     // 使用setInterval定时更新位移
+    // //     setInterval(() => {
+    // //         const rect = el.getBoundingClientRect();
+
+    // //         // 根据方向获取当前位置信息
+    // //         if (direction === 'x') {
+    // //             currentPosition = rect.left;
+    // //         } else if (direction === 'y') {
+    // //             currentPosition = rect.top;
+    // //         } 
+    // //     }, 200); // 每0.5秒更新一次位置信息
+
+    // //     // 返回一个函数来获取0.5秒内的位移
+        
+    // //         const displacement = currentPosition - lastPosition;
+    // //         lastPosition = currentPosition; // 更新为当前位置
+    // //         return console.log(displacement, currentPosition, lastPosition);
+        
+    // // }
+
+    // // function trackElementDisplacementOverTime(el, direction) {
+    // //     let lastPosition = direction === 'x' ? el.getBoundingClientRect().left : el.getBoundingClientRect().top;
+    // //     let currentPosition;
+
+    // //     setInterval(() => {
+    // //         const rect = el.getBoundingClientRect();
+    // //         currentPosition = direction === 'x' ? rect.left : rect.top;
+    // //         const displacement = currentPosition - lastPosition;
+    // //         lastPosition = currentPosition;
+    // //         // console.log(`Displacement in ${direction}: ${displacement}`);
+            
+    // //     }, 250); // 每0.2秒更新一次位置信息
+        
+    // // }
+    // // 获取碰撞前的位移
+    // function trackElementDisplacementOverTime(el, callback) {
+    //     let lastPosition = {
+    //         x: el.getBoundingClientRect().left,
+    //         y: el.getBoundingClientRect().top
+    //     };
+
+    //     setInterval(() => {
     //         const rect = el.getBoundingClientRect();
     //         const currentPosition = {
-    //             x: rect.left + rect.width / 2, // 获取元素中心的X坐标
-    //             y: rect.top + rect.height / 2,  // 获取元素中心的Y坐标
+    //             x: rect.left,
+    //             y: rect.top
     //         };
-
-    //         const deltaX = currentPosition.x - prevPosition.x;
-    //         const deltaY = currentPosition.y - prevPosition.y;
-
-    //         // 计算速度，单位是px/秒
-    //         velocity.x = deltaX / timeDelta;
-    //         velocity.y = deltaY / timeDelta;
-
-    //         // 更新上一帧的位置
-    //         prevPosition = currentPosition;
-
-    //         requestAnimationFrame(updateVelocity); // 每帧继续更新速度
-    //     }
-
-    //     // 启动 requestAnimationFrame 来计算速度
-    //     requestAnimationFrame(updateVelocity);
-
-    //     // 返回一个函数来获取当前速度
-    //     return function getCurrentVelocity() {
-    //         console.log(velocity.x, velocity.y);
-    //         return { x: velocity.x, y: velocity.y };
-    //         // return velocity;
-    //     };
-    // }
-
-    // 获取元素位移的方法
-    // function trackElementDisplacementOverTime(el, direction) {
-    //     let lastPosition = 0;
-    //     let currentPosition = 0;
-
-    //     // 初始化位置
-    //     if (direction === 'x') {
-    //         lastPosition = el.getBoundingClientRect().left;
-    //     } else if (direction === 'y') {
-    //         lastPosition = el.getBoundingClientRect().top;
-    //     }
-
-    //     // 使用setInterval定时更新位移
-    //     setInterval(() => {
-    //         const rect = el.getBoundingClientRect();
-
-    //         // 根据方向获取当前位置信息
-    //         if (direction === 'x') {
-    //             currentPosition = rect.left;
-    //         } else if (direction === 'y') {
-    //             currentPosition = rect.top;
-    //         } 
-    //     }, 200); // 每0.5秒更新一次位置信息
-
-    //     // 返回一个函数来获取0.5秒内的位移
-        
-    //         const displacement = currentPosition - lastPosition;
-    //         lastPosition = currentPosition; // 更新为当前位置
-    //         return console.log(displacement, currentPosition, lastPosition);
-        
-    // }
-
-    // function trackElementDisplacementOverTime(el, direction) {
-    //     let lastPosition = direction === 'x' ? el.getBoundingClientRect().left : el.getBoundingClientRect().top;
-    //     let currentPosition;
-
-    //     setInterval(() => {
-    //         const rect = el.getBoundingClientRect();
-    //         currentPosition = direction === 'x' ? rect.left : rect.top;
-    //         const displacement = currentPosition - lastPosition;
+    //         const displacement = {
+    //             x: currentPosition.x - lastPosition.x,
+    //             y: currentPosition.y - lastPosition.y
+    //         };
     //         lastPosition = currentPosition;
-    //         // console.log(`Displacement in ${direction}: ${displacement}`);
-            
-    //     }, 250); // 每0.2秒更新一次位置信息
-        
+
+    //         // 立即调用回调函数，并将位移值作为参数传递
+    //         if (typeof callback === 'function') {
+    //             callback(displacement);
+    //         }
+    //     }, 250); 
     // }
-    // 获取碰撞前的位移
-    function trackElementDisplacementOverTime(el, callback) {
-        let lastPosition = {
-            x: el.getBoundingClientRect().left,
-            y: el.getBoundingClientRect().top
-        };
 
-        setInterval(() => {
-            const rect = el.getBoundingClientRect();
-            const currentPosition = {
-                x: rect.left,
-                y: rect.top
-            };
-            const displacement = {
-                x: currentPosition.x - lastPosition.x,
-                y: currentPosition.y - lastPosition.y
-            };
-            lastPosition = currentPosition;
+    // // 小球的移动
+    // function moveElement(element, speedX, speedY) {
+    //     // 获取元素的初始位置
+    //     const initialRect = element.getBoundingClientRect();
+    //     let currentPositionX = initialRect.left;
+    //     let currentPositionY = initialRect.top;
 
-            // 立即调用回调函数，并将位移值作为参数传递
-            if (typeof callback === 'function') {
-                callback(displacement);
-            }
-        }, 250); 
-    }
+    //     // 定义一个函数来更新元素的位置
+    //     function updatePosition() {
+    //         // 更新位置
+    //         currentPositionX += speedX;
+    //         currentPositionY += speedY;
 
-    // 小球的移动
-    function moveElement(element, speedX, speedY) {
-        // 获取元素的初始位置
-        const initialRect = element.getBoundingClientRect();
-        let currentPositionX = initialRect.left;
-        let currentPositionY = initialRect.top;
-
-        // 定义一个函数来更新元素的位置
-        function updatePosition() {
-            // 更新位置
-            currentPositionX += speedX;
-            currentPositionY += speedY;
-
-            // 设置元素的新位置
+    //         // 设置元素的新位置
             
-            element.style.left = currentPositionX + 'px';
-            element.style.top = currentPositionY + 'px';
+    //         element.style.left = currentPositionX + 'px';
+    //         element.style.top = currentPositionY + 'px';
             
-            console.log(currentPositionX, currentPositionY);
-            // 通过 requestAnimationFrame 来创建一个递归的动画循环
-            requestAnimationFrame(updatePosition);
-        }
+    //         console.log(currentPositionX, currentPositionY);
+    //         // 通过 requestAnimationFrame 来创建一个递归的动画循环
+    //         requestAnimationFrame(updatePosition);
+    //     }
 
-        // 启动动画循环
-        requestAnimationFrame(updatePosition);
-    }
+    //     // 启动动画循环
+    //     requestAnimationFrame(updatePosition);
+    // }
     
 }
 
