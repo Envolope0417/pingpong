@@ -122,7 +122,7 @@ function CollisionDetection() {
     
 
     // 启动检测
-    setInterval(checkCollision, 250);
+    setInterval(checkCollision, 100);
 
     // 检测碰撞条件
     function checkCollision() {
@@ -137,8 +137,8 @@ function CollisionDetection() {
         const ballY = parseInt(ball.style.top);
         const playerPaddleX = parseInt(playerPaddle.style.left);
         const playerPaddleY = parseInt(playerPaddle.style.top);
-        // const computerPaddleX = parseInt(computerPaddle.style.left);
-        // const computerPaddleY = parseInt(computerPaddle.style.top);
+        const computerPaddleX = parseInt(computerPaddle.style.left);
+        const computerPaddleY = parseInt(computerPaddle.style.top);
         console.log(ballX, ballY, playerPaddleX, playerPaddleY, ball.style.left);
 
         // 玩家球拍碰撞检测
@@ -163,13 +163,13 @@ function CollisionDetection() {
             });
         }
 
-        // // 电脑球拍碰撞检测
-        // if (ballY <= computerPaddleY + computerPaddle.offsetHeight &&
-        //     ballX + ball.offsetWidth > computerPaddleX &&
-        //     ballX < computerPaddleX + computerPaddle.offsetWidth) {
-        //     handleCollision();
-        //     return;
-        // }
+        // 电脑球拍碰撞检测
+        if (ballY <= computerPaddleY + computerPaddle.offsetHeight &&
+            ballX + ball.offsetWidth > computerPaddleX &&
+            ballX < computerPaddleX + computerPaddle.offsetWidth) {
+            handleCollision();
+            return;
+        }
 
         // 循环
         // requestAnimationFrame(checkCollision);
