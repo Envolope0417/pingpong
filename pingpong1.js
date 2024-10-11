@@ -18,7 +18,7 @@ const computerPaddle = document.getElementById("computerPaddle");
         playerPaddle.style.top = mouse_y - 20 + "px";
 
 
-        console.log(mouse_x, mouse_y);
+        // console.log(mouse_x, mouse_y);
     });
 
 
@@ -54,7 +54,7 @@ class PlayerPaddlee{
     // 启动碰撞检测
     CollisionDetection();
     // 球运动
-    setInterval(ballMove, 250);
+    
     
     
 // 碰撞检测
@@ -63,6 +63,7 @@ function CollisionDetection() {
 
     // 检测碰撞条件
     function checkCollision() {
+        
         console.log(collisionDetection);
         if (!collisionDetection) return;
 
@@ -78,8 +79,22 @@ function CollisionDetection() {
         if (ballY + ball.offsetHeight >= playerPaddleY &&
             ballX + ball.offsetWidth > playerPaddleX &&
             ballX < playerPaddleX + playerPaddle.offsetWidth) {
+                
             handleCollision();
             return;
+        }else{
+            // 获取小球碰撞前位置
+            Ball.x = parseInt(ball.style.left);
+            Ball.y = parseInt(ball.style.top);
+
+            console.log('ballx=' + Ball.x + 'bally=' + Ball.y);
+
+            // 获取球拍即鼠标碰撞前位置
+            document.addEventListener("mousemove", function (event) {
+                PlayerPaddle.x = event.clientX;
+                PlayerPaddle.y = event.clientY;
+
+            });
         }
 
         // // 电脑球拍碰撞检测
@@ -92,7 +107,7 @@ function CollisionDetection() {
 
         // 循环
         // requestAnimationFrame(checkCollision);
-        setInterval(checkCollision, 250);
+        // setInterval(checkCollision, 250);
     }
 
     // 碰撞函数，停止检测并在0.5秒后恢复,在这里写碰撞之后要发生的事情
@@ -102,13 +117,17 @@ function CollisionDetection() {
 
         // 获取小球和鼠标当前位置并计算速度
         getSpeed();
+        setInterval(ballMove, 50);
+        
+        console.log(Ball.Vx, Ball.Vy);
 
         // 0.5秒后恢复碰撞检测
         setTimeout(() => {
             collisionDetection = true;
             console.log("Collision.");
             // requestAnimationFrame(checkCollision); 
-            setInterval(checkCollision, 250);
+            // setInterval(checkCollision, 250);
+            checkCollision();
         
         
         }, 500);
@@ -120,16 +139,7 @@ function CollisionDetection() {
     // 启动检测
     setInterval(checkCollision, 250);
 
-    // 获取小球碰撞前位置
-    Ball.x = parseInt(ball.style.left);
-    Ball.y = parseInt(ball.style.top);
     
-    // 获取球拍即鼠标碰撞前位置
-    document.addEventListener("mousemove", function (event) {
-        PlayerPaddle.x = event.clientX;
-        PlayerPaddle.y = event.clientY;
-
-    });
 
     
 }
@@ -139,8 +149,14 @@ function ballMove(){
     parseInt(ball.style.left);
     parseInt(ball.style.top);
     
-    ball.style.left += Ball.Vx + PlayerPaddle.Vx + "px";
-    ball.style.top += + Ball.Vx + PlayerPaddle.Vx + "px";
+    // ball.style.left = (parseInt(ball.style.left) + Ball.Vx + PlayerPaddle.Vx) + "px";
+    // ball.style.top = (parseInt(ball.style.top) + Ball.Vy + PlayerPaddle.Vy) + "px";
+
+    ball.style.left = parseInt(ball.style.left) - 10 + "px";
+    ball.style.top = parseInt(ball.style.top) - 10 + "px";
+
+    console.log('ballmoving');
+    console.log('ballleft='+ ball.style.left + 'balltop=' + ball.style.top);
     
 }
 
@@ -148,10 +164,13 @@ function ballMove(){
 function getSpeed(){
     const currentBallX = parseInt(ball.style.left);
     const currentBallY = parseInt(ball.style.top);
+    
 
     Ball.Vx = currentBallX - Ball.x;
     Ball.Vy = currentBallY - Ball.y;
-
+    
+    console.log('currentBallX=' + currentBallX + 'currentBallY=' + currentBallY + 'BallVx=' + Ball.Vx + 'BallVy=' + Ball.Vy + 'BallX=' + Ball.x+ 'BallY=' + Ball.y);
+    // 获取鼠标的速度
     document.addEventListener("mousemove", function (event) {
         const currentPlayerPaddleX = event.clientX;
         const currentPlayerPaddleY = event.clientY;
@@ -159,6 +178,8 @@ function getSpeed(){
         // 计算鼠标速递
         PlayerPaddle.Vx = currentPlayerPaddleX - PlayerPaddle.x;
         PlayerPaddle.Vy = currentPlayerPaddleY - PlayerPaddle.y;
+
+        //console.log('PlayerPaddleVx=' + PlayerPaddle.Vx + 'PlayerPaddleVy=' + PlayerPaddle.Vy + 'currentPlayerPaddleX=' + currentPlayerPaddleX+ 'currentPlayerPaddleY=' + currentPlayerPaddleY+ 'PlayerPaddleX=' + PlayerPaddle.x+ 'PlayerPaddleY=' + PlayerPaddle.y);
     });
     
 }
